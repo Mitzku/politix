@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+{% block content %}
+
+<head>
+	<title>Home</title>
+</head>
+<body>
+	<div class="grid-container-home">
+		<div class="cell">
+			<h2>Datenbasierte Einblicke in die Welt der Politik.<h2>
+			<p>Entdecken Sie die Welt der Politik mit datengetriebenen Insights! <br>Finden Sie ganz einfach Politiker und informieren Sie sich über ihre Aktivitäten und neuesten Abstimmungen. <br> Bleiben Sie auf dem Laufenden und erhalten Sie einen Einblick in das politische Geschehen. </p>
+		</div>
+		<div class="cell" id="top-right-home">
+			<div class="card" >
+				<img src="{{ img_url }}" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">{{ vorname }} {{ nachname }} <br> </h5>
+                    <form action="{{ url_for('parteien_profile') }}" method="POST">
+                        <button class="card-title btn btn-link" type="submit" name="partei" value="{{ partei }}">{{ partei }}</button>
+                      </form>
+                      <p class="card-text">Wahlkreis: {{ wahlkreis_id }} <br> Beruf: {{ beruf }} <br> Bundesland: {{ bundesland }}</p>
+                      <form action="{{ url_for('abstimmungsverhalten') }}" method="POST">
+                        <input type="hidden" name="bundestags_id" value="{{ bundestags_id }}">
+                        <button class="btn btn-outline btn-info" type="submit">Profil</button>
+                      </form>
+				</div>
+			</div>
+		</div>
+		<div class="cell" id="middle-left-home">
+			<div class="image-cell">
+				<img src="https://images.unsplash.com/photo-1591079751210-718012d90ff7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="card-img-top" alt="...">
+			</div>
+		</div>
+		<div class="cell">
+			<h2>Politiktreibende<h2>
+			<p>Daten zu Abstimmungsverhalten, Ausgaben für politische Werbung, Redebeiträge, Tweets, Boulevard und vieles mehr!  </p>
+			<a class="read_more" href="{{ url_for('politiker')}}">Erkunde deine Politiktreibenden</a>
+		</div>
+		<div class="cell">
+			<h2>Abstimmungen<h2>
+				<p>Daten zu Abstimmungsergebnissen, Stimmverhalten, Abwesenheiten, und vieles mehr!  </p>
+				<a class="read_more" href="{{ url_for('abstimmungen')}}">Erkunde Abstimmungen</a>
+		</div>
+		<div class="cell" id="bottom-right-home">
+			<div class="image-cell">
+				<img src="https://images.unsplash.com/photo-1599579524220-8e32e6e602d0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="card-img-top" alt="...">
+			</div>
+		</div>
+	</div>
+	  
+	  
+</body>
+
+{% endblock %}

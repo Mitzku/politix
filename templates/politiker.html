@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+{% block content %}
+
+<h1> Eine Liste aller aktuellen Politiktreibenden </h1>
+
+<form method="GET">
+    <label for="name">Vorname:</label>
+    <input type="text" id="name" name="name">
+    <button type="submit">Filter</button>
+    <button type="submit">Clear Filter</button>
+</form>
+
+<div class="row">
+  {% for row in data %}
+
+
+
+  <div class="col-md-3">
+    <div class="card" id="politiker-overview-card">
+      <img src="{{ row.img_url }}" alt="{{ row.vorname }} {{ row.nachname }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ row.vorname }} {{ row.nachname }}<br> {{ row.partei }}</h5>
+        <p class="card-text">Wahlkreis: {{ row.wahlkreis_id }} <br> Beruf: {{ row.beruf }} <br> Bundesland: {{ row.bundesland }}</p>
+        <form class="politiker-overview" action="{{ url_for('abstimmungsverhalten') }}" method="POST">
+        <input type="hidden" name="bundestags_id" value="{{ row.bundestags_id }}">
+        <button class="btn btn-outline btn-info">Abstimmungen</button>
+      </div>
+      <div class="card-links">
+        <form class="politiker-overview" action="{{ url_for('abstimmungsverhalten') }}" method="POST">
+            <input type="hidden" name="bundestags_id" value="{{ row.bundestags_id }}">
+        </form>
+        <a href="{{ row.facebook_links }}" target="_blank" class="card-link">
+          Facebook
+        </a>
+        <a href="{{ row.twitter_links }}" target="_blank" class="card-link">
+          Twitter
+        </a>
+        <a href="{{ row.instagram_links }}" target="_blank" class="card-link">
+          Instagram
+        </a>
+        <a href="{{ row.website_links }}" target="_blank" class="card-link">
+          Website
+        </a>
+        </div>
+    
+  
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  
+  
+
+{% endblock %}

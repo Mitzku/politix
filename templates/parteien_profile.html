@@ -1,0 +1,89 @@
+{% extends "template.html" %}
+{% block content %}
+
+<head>
+	<title>Home</title>
+</head>
+<body>
+	<div class="grid-container-home" id="partei-page-grid">
+		<div class="cell">
+            <div class="card" >
+				<div class="card-body">
+					<h5 class="card-title"> {{ partei }}</h5>
+					
+			</div>
+		</div>
+		<div class="cell" id="top-right-home">
+            <div class="graph-frame">
+
+                <img class=graph, src="data:image/png;base64, {{ plot_url }}">
+                <div class="graph-frame-stats">
+                    <p> <br> Fraktionsstärke: <br> Gesamtzahl Stimmen: <br> Ja-Stimmen: <br> Nein-Stimmen: <br> Enthaltungen: <br> Nicht-Abgegeben: <br> Mutterschutz: </p>
+                </div>
+            </div>
+		</div>
+		<div class="cell" id="middle-full-profile">
+            <div class="abstimmung-table-profile">
+                <div class="table-headline"> 
+                    <div class="inner-cell-headline">Ja</div>
+                    <div class="inner-cell-headline">Nein</div>
+                    <div class="inner-cell-headline">Enthaltungen</div>
+                    <div class="inner-cell-headline">Nicht Abgegeben</div>
+                </div>
+                <div class="inner-cell-item">
+                    {% for row in data4 %}
+                    <div class="card" id="abstimmung-table-item">
+                        <div class="card-body">
+                        <h5 class="card-title"> {{ row.Abstimmungsthema }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Abstimmungsausgang</h6>
+                        <p class="card-text">Beschreibung von Abstimmung.</p>
+                        <a href="#" class="card-link">Abstimmungsüberblick</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="inner-cell-item">
+                    {% for row in data3 %}
+                    <div class="card" id="abstimmung-table-item">
+                        <div class="card-body">
+                        <h5 class="card-title"> {{ row.Abstimmungsthema }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Abstimmungsausgang</h6>
+                        <p class="card-text">Beschreibung von Abstimmung.</p>
+                        <a href="#" class="card-link">Abstimmungsüberblick</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="inner-cell-item">
+                    {% for row in data5 %}
+                    <div class="card" id="abstimmung-table-item">
+                        <div class="card-body">
+                        <h5 class="card-title"> {{ row.Abstimmungsthema }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Abstimmungsausgang</h6>
+                        <p class="card-text">Beschreibung von Abstimmung.</p>
+                        <a href="#" class="card-link">Abstimmungsüberblick</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="inner-cell-item">
+                    {% for row in data6 %}
+                    <div class="card" id="abstimmung-table-item">
+                        <div class="card-body">
+                        <h5 class="card-title"> {{ row.Abstimmungsthema }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Abstimmungsausgang</h6>
+                        <p class="card-text">Beschreibung von Abstimmung.</p>
+                        <a href="#" class="card-link">Abstimmungsüberblick</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+		</div>
+	
+	</div>
+	  
+	  
+</body>
+
+{% endblock %}

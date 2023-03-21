@@ -1,0 +1,17 @@
+{% extends "template.html" %}
+{% block content %}
+
+<head>
+	<title>Home</title>
+</head>
+<body>
+    <div class="grid-container-home">
+        {% for partei in parteien %}
+        <div class="cell">{{ partei }}</div>
+        {% endfor %}
+    </div>
+	  
+	  
+</body>
+
+{% endblock %}
