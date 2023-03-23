@@ -1,5 +1,8 @@
 # poli-ticker
 
+URL: http://3.67.202.214/
+Letztes Server Update: 23.03.2023
+
 Notes
 - Letzte Zeit um Bundestagswebseite zu scrapen:  2283.9095923900604 seconds
 - Seid Einbau der img_rul auf /politiker ist die ladezeit merkbar angestiegen. könnte daran lieen, das ich auf politiker den ganzen df schicke und nicht nur werte?
