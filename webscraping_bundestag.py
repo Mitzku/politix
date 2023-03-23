@@ -22,6 +22,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 driver = webdriver.Chrome(options=options)
 
+
 # Navigate to the relevant page
 driver.get("https://www.bundestag.de/abgeordnete/biografien")
 
@@ -40,6 +41,7 @@ except Exception as e:
 
 # Quit the webdriver
 driver.quit()
+
 
 
 # working with the links liste generated above. we need to filter out the wrong links first before iterating over it and fetching the relevant information
@@ -104,6 +106,7 @@ def retrieve_votes(lnk):
 
 
 
+
 #creating the lists that eventually will form the dataframe
 
 bundestags_id = []
@@ -114,6 +117,9 @@ facebook_links = []
 instagram_links = []
 twitter_links = []
 website_links = []
+partei_links = []
+img_url = []
+beruf_text = []
 
 df_politiker_selenium = pd.DataFrame()
 df_abstimmungen_selenium = pd.DataFrame()
@@ -124,7 +130,7 @@ start_time = time.time()
 
 
 #iterating over all  pages and getting the relevant information into df
-driver = webdriver.Chrome(PATH)
+driver = webdriver.Chrome(options=options)
 
 # to verify the existence of elements
 
@@ -142,6 +148,12 @@ def check_abstimmungen_exists():
         return False
     return True
 
+def check_partei_exists():
+    try:
+        driver.find_element(By.CSS_SELECTOR,'div.bt-logo-partei img')
+    except NoSuchElementException:
+        return False
+    return True
 
 
 #for test
@@ -158,6 +170,7 @@ for lnk in richtige_links:
     twitter_exists = check_link_exists("Twitter")
     instagram_exists = check_link_exists("Instagram")
     wahlkreis_exists = check_link_exists("Wahlkreis")
+    partei_exists = check_partei_exists()
 
     try:
         #bundestags_id
@@ -169,6 +182,23 @@ for lnk in richtige_links:
         get_title = driver.title
         nachnamen.append(re.findall("\w+", get_title)[-1])
         vornamen.append(re.findall("\w+", get_title)[-2])
+        
+        #Partei
+        if check_partei_exists() == True:
+            search = driver.find_element(By.CSS_SELECTOR,'div.bt-logo-partei img').get_attribute('alt')
+            partei_links.append(search)
+        else:
+            partei_links.append('fraktionslos')
+            
+        #Beruf
+        beruf = driver.find_element(By.CSS_SELECTOR, 'div.bt-biografie-beruf p').text
+        beruf_text.append(beruf)
+
+        # img_url
+        base_url = "https://www.bundestag.de"
+        url = driver.find_element(By.CSS_SELECTOR, 'img[data-img-md-retina]').get_attribute('data-img-md-retina')
+        full_url = base_url + url
+        img_url.append(full_url)
 
         # wahlkreis
         if wahlkreis_exists == True:
@@ -208,6 +238,7 @@ for lnk in richtige_links:
     except Exception as e:
         #driver.quit()
         print('duh!!!!!')
+        print(lnk)
         print('Error:', e)
     
     if check_abstimmungen_exists() == True:
@@ -231,6 +262,7 @@ for lnk in richtige_links:
         except Exception as e:
                 #driver.quit()
                 print('duh!!!!!')
+                print(lnk)
                 print('Error:', e)
 
     else:
@@ -239,8 +271,8 @@ for lnk in richtige_links:
     
      # to test this loop with 5 iterations
     #i = i + 1
-    #if i == 2:
-        #break
+    #if i == 25:
+    #   break
 
 
 
@@ -252,6 +284,9 @@ df_politiker_selenium['facebook_links'] = facebook_links
 df_politiker_selenium['twitter_links'] = twitter_links
 df_politiker_selenium['website_links'] = website_links
 df_politiker_selenium['instagram_links'] = instagram_links
+df_politiker_selenium['img_url'] = img_url
+df_politiker_selenium['partei'] = partei_links
+df_politiker_selenium['beruf'] = beruf_text
 
 end_time = time.time()
 total_time = end_time - start_time
@@ -259,12 +294,21 @@ total_time = end_time - start_time
 print("Time taken: ", total_time, "seconds")
 
 
+# data cleaning
+
+df_politiker_selenium['wahlkreis'] = df_politiker_selenium['wahlkreis'].astype(str)
+df_politiker_selenium['bundesland'] = df_politiker_selenium['wahlkreis'].str.extract(r"Landesliste:\[\'([\w\s\-–]+)", expand=False)
+df_politiker_selenium['wahlkreis_id'] = df_politiker_selenium['wahlkreis'].str.extract(r"Wahlkreis\s(\d+:\s[\w\s\-–]+\w)\']")
+df_politiker_selenium['partei'] = df_politiker_selenium['partei'].str.replace(r'^Wortbildmarke der\s*', '').str.strip()
+
+
+
 
 timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
 # save the dataframe to a CSV file with the timestamp in the filename
-filename1 = f'df_politiker_selenium_{timestamp}.csv'
-filename2 = f'df_abstimmungen_selenium_{timestamp}.csv'
+filename1 = f'csv/df_politiker_selenium_{timestamp}.csv'
+filename2 = f'csv/df_abstimmungen_selenium_{timestamp}.csv'
 df_politiker_selenium.to_csv(filename1, index=False)
 df_abstimmungen_selenium.to_csv(filename2, index=False)
 
