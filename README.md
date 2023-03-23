@@ -5,6 +5,8 @@ Notes
 - Seid Einbau der img_rul auf /politiker ist die ladezeit merkbar angestiegen. könnte daran lieen, das ich auf politiker den ganzen df schicke und nicht nur werte?
 - Profilseiten gehen nur manchmal weil scheinbar die Daten nicht in der db sind... dürfte am scrapen liegen. Ich habe lediglich 195 von 747 IDs in df_abstimmungen_selenium
 - webscraper macht auf einmal issues ohne erkennbaren grund. ging vorhin noch mit demselben script...
+- app.py needs to be changed to include     app.run(host='0.0.0.0', port=8080) when running on the EC2 server
+
 
 Themen:
 - Ausscheidende Politiktreibende
