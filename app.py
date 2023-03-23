@@ -1,12 +1,7 @@
 from flask import Flask, request, render_template, url_for, send_file
-import sqlite3
 import pandas as pd
-
-import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-
-import random
 from helpers import get_db_connection, get_vote_data, generate_pie_chart, get_politician_info
 
 
